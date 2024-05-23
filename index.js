@@ -9,16 +9,10 @@ const port = 5000;
 app.use(cors()); 
 app.use(express.json());
 
-app.get('/api/code-blocks/:id', (req, res) => {
-    const id = parseInt(req.params.id, 10);
-    const codeBlock = codeBlocks.find(block => block.id === id);
-
-    if (codeBlock) {
-        res.json(codeBlock);
-    } else {
-        res.status(404).send('Code block not found');
-    }
+app.get('/api/code-blocks/', (req, res) => {
+    res.json(codeBlocks);
 });
+
 
 const server = http.createServer(app);
 
