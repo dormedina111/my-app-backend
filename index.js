@@ -3,14 +3,20 @@ const cors = require('cors');
 const app = express();
 const http = require('http');
 const { Server } = require('socket.io');
-const codeBlocks = require('./code-blocks');
+const supabase = require('./supabaseClient'); 
 
 const port = 5000;
 app.use(cors()); 
 app.use(express.json());
 
-app.get('/api/code-blocks/', (req, res) => {
-    res.json(codeBlocks);
+app.get('/api/code-blocks', async (req, res) => {
+    const { data, error } = await supabase
+        .from('code_blocks')
+        .select();
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+    res.json(data);
 });
 
 
